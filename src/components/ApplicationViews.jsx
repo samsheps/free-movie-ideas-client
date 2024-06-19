@@ -15,11 +15,20 @@ export const ApplicationViews = () => {
         type: {
             id: 1,
             label: "Volcanic"
+        }, 
+        user: {
+            first_name: "sarah",
+            last_name: "bobearah"
         }
     }])
 
-    const fetchRocksFromAPI = async () => {
-        const response = await fetch("http://localhost:8000/rocks",
+    const fetchRocksFromAPI = async (showAll) => {
+        let url = "http://localhost:8000/rocks"
+
+        if (showAll !== true) {
+            url = "http://localhost:8000/rocks?owner=current"
+        }
+        const response = await fetch(url,
             {
                 headers: {
                     Authorization: `Token ${JSON.parse(localStorage.getItem("rock_token")).token}`
@@ -28,6 +37,7 @@ export const ApplicationViews = () => {
         const rocks = await response.json()
         setRocksState(rocks)
     }
+// this code isn't actually running at this point 
 
     return <BrowserRouter>
         <Routes>
@@ -35,9 +45,9 @@ export const ApplicationViews = () => {
             <Route path="/register" element={<Register />} />
             <Route element={<Authorized />}>
                 <Route path="/" element={<Home />} />
-                <Route path="/allrocks" element={<RockList rocks={rocksState} fetchRocks={fetchRocksFromAPI} />} />
+                <Route path="/allrocks" element={<RockList rocks={rocksState} fetchRocks={fetchRocksFromAPI} showAll={true} />} />
                 <Route path="/create" element={<RockForm fetchRocks={fetchRocksFromAPI} />} />
-                <Route path="/mine" element={<RockList rocks={rocksState} fetchRocks={fetchRocksFromAPI} />} />
+                <Route path="/mine" element={<RockList rocks={rocksState} fetchRocks={fetchRocksFromAPI} showAll={false} />} />
             </Route>
         </Routes>
     </BrowserRouter>
