@@ -47,6 +47,7 @@ return <BrowserRouter>
             <Route path="/" element={<Home />} />
             <Route path="/movies" element={<MovieList movies={movieState} fetchMovies={fetchMoviesFromAPI} showAll={true} />} />
             <Route path="/create" element={<MovieForm fetchMovies={fetchMoviesFromAPI} />} />
+            <Route path="/movies/update/:id" element={<MovieForm fetchMovies={fetchMoviesFromAPI} />} />
             <Route path="/mine" element={<MovieList movies={movieState} fetchMovies={fetchMoviesFromAPI} showAll={false} />} />
         </Route>
     </Routes>
