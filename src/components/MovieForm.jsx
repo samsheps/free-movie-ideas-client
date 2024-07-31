@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 export const MovieForm = ({ fetchMovies }) => {
-    const initialMovieState = {
-        "title": "",
-        "release_year": 1900,
-        "info": "",
-        "director": "",
-        "watch_location": ""
-    //     "genre": {
-    //         "id": 0,
-    //         "name": ""
-    // }
-}
-
-    const [genres, changeGenres] = useState([{ id: 1, name: "Drama"}, { id: 2, name: "Comedy"}])
-    const [movie, updateMovieProps] = useState(initialMovieState)
+    const { id } = useParams()
     const navigate = useNavigate()
+
+    const initialMovieState = {
+        title: "",
+        release_year: 1900,
+        info: "",
+        director: "",
+        watch_location: "",
+        genre: 0
+    }
+
+    const [movie, updateMovieProps] = useState(initialMovieState)
+    const [genres, changeGenres] = useState([])
 
     const fetchGenres = async () => {
         const response = await fetch("http://localhost:8000/genres", {
@@ -28,16 +27,33 @@ export const MovieForm = ({ fetchMovies }) => {
         changeGenres(genres)
     }
 
+    const fetchMovieDetails = async () => {
+        if (id) {
+            const response = await fetch(`http://localhost:8000/movies/${id}`, {
+                headers: {
+                    "Authorization": `Token ${JSON.parse(localStorage.getItem("movie_token")).token}`
+                }
+            })
+            const movieData = await response.json()
+            updateMovieProps({
+                ...movieData,
+                genre: movieData.genre.id
+            })
+        }
+    }
+
     useEffect(() => {
         fetchGenres()
-    }, [])
+        fetchMovieDetails()
+    }, [id])
 
-
-    const addMovie = async (evt) => {
+    const handleSubmit = async (evt) => {
         evt.preventDefault()
+        const method = id ? "PUT" : "POST"
+        const url = id ? `http://localhost:8000/movies/${id}/` : "http://localhost:8000/movies/"
 
-        await fetch("http://localhost:8000/movies/", {
-            method: "POST",
+        await fetch(url, {
+            method: method,
             headers: {
                 "Authorization": `Token ${JSON.parse(localStorage.getItem("movie_token")).token}`,
                 "Content-Type": "application/json"
@@ -46,17 +62,16 @@ export const MovieForm = ({ fetchMovies }) => {
         })
 
         await fetchMovies()
-
         navigate("/movies")
     }
 
     return (
         <main className="container--login">
             <section>
-                <form className="form--login" onSubmit={(e) => { e.preventDefault(); addMovie(e) }}>
-                    <h1 className="text-3xl">Add a Movie</h1>
+                <form className="form--login" onSubmit={handleSubmit}>
+                    <h1 className="text-3xl">{id ? "Update" : "Add"} Movie</h1>
                     <fieldset className="mt-4">
-                        <label htmlFor="title">Name:</label>
+                        <label htmlFor="title">Title:</label>
                         <input id="title" type="text"
                             onChange={e => {
                                 const copy = { ...movie }
@@ -70,7 +85,7 @@ export const MovieForm = ({ fetchMovies }) => {
                         <input id="release_year" type="number"
                             onChange={e => {
                                 const copy = { ...movie }
-                                copy.release_year = e.target.value
+                                copy.release_year = parseInt(e.target.value)
                                 updateMovieProps(copy)
                             }}
                             value={movie.release_year} className="form-control" />
@@ -83,12 +98,13 @@ export const MovieForm = ({ fetchMovies }) => {
                                 const copy = { ...movie }
                                 copy.genre = parseInt(e.target.value)
                                 updateMovieProps(copy)
-                            }}>
+                            }}
+                            value={movie.genre}>
                             <option value={0}>- Select a genre -</option>
                             {
                                 genres.map(g => <option
                                     key={`genre-${g.id}`}
-                                    value={g.id}>{g.name}</option> )
+                                    value={g.id}>{g.name}</option>)
                             }
                         </select>
                     </fieldset>
@@ -123,10 +139,8 @@ export const MovieForm = ({ fetchMovies }) => {
                             value={movie.watch_location} className="form-control" />
                     </fieldset>
                     <fieldset>
-                        <button type="submit"
-                            onClick={addMovie}
-                            className="button rounded-md bg-blue-700 text-blue-100 p-3 mt-4">
-                            Add Movie
+                        <button type="submit" className="button rounded-md bg-blue-700 text-blue-100 p-3 mt-4">
+                            {id ? "Update" : "Add"} Movie
                         </button>
                     </fieldset>
                 </form>
