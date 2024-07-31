@@ -1,4 +1,4 @@
-# Rock of Ages Client with Vite+Tailwind CSS
+# Free Movie Ideas Client with Vite+Tailwind CSS
 
 This project was created with a tool named Vite. The React code is exactly like the code that you learned how to write. The only difference is that your files will have the extension of **_.jsx_** instead of **_.js_**.
 

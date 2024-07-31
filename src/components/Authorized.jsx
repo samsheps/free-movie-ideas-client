@@ -2,7 +2,7 @@ import { Navigate, Outlet } from "react-router-dom"
 import { NavBar } from "./Navbar.jsx"
 
 export const Authorized = () => {
-  if (localStorage.getItem("rock_token")) {
+  if (localStorage.getItem("movie_token")) {
     return <>
       <NavBar />
       <main className="p-4">

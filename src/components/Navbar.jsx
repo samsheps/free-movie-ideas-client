@@ -6,20 +6,20 @@ export const NavBar = () => {
     return (
         <ul className="navbar pb-10">
             <li className="navbar__item pl-10">
-                <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/allrocks"}>All Rocks</NavLink>
+                <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/movies"}>All Movies</NavLink>
             </li>
             <li className="navbar__item">
-                <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/create"}>Collect a Rock</NavLink>
+                <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/create"}>Add a Movie</NavLink>
             </li>
             <li className="navbar__item">
-                <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/mine"}>My Rocks</NavLink>
+                <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/mine"}>My Movies</NavLink>
             </li>
             {
-                (localStorage.getItem("rock_token") !== null) ?
+                (localStorage.getItem("movie_token") !== null) ?
                     <li className="navbar__item">
                         <button className="underline text-blue-600 hover:text-purple-700"
                             onClick={() => {
-                                localStorage.removeItem("rock_token")
+                                localStorage.removeItem("movie_token")
                                 navigate('/login')
                             }}
                         >Logout</button>

@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Login.css"
 
 export const Login = () => {
-    const [email, setEmail] = useState("steve@brownlee.com")
-    const [password, setPassword] = useState("brownlee")
+    const [email, setEmail] = useState("sms@gmail.com")
+    const [password, setPassword] = useState("shepherd")
     const existDialog = useRef()
     const navigate = useNavigate()
 
@@ -20,7 +20,7 @@ export const Login = () => {
             .then(res => res.json())
             .then(authInfo => {
                 if (authInfo.valid) {
-                    localStorage.setItem("rock_token", JSON.stringify(authInfo))
+                    localStorage.setItem("movie_token", JSON.stringify(authInfo))
                     navigate("/")
                 } else {
                     existDialog.current.showModal()
@@ -37,7 +37,7 @@ export const Login = () => {
 
             <section>
                 <form className="form--login" onSubmit={handleLogin}>
-                    <h1 className="text-4xl mt-7 mb-3">Rock of Ages</h1>
+                    <h1 className="text-4xl mt-7 mb-3">Free Movie Ideas</h1>
                     <h2 className="text-xl mb-10">Please sign in</h2>
                     <fieldset className="mb-4">
                         <label htmlFor="inputEmail"> Email address </label>
