@@ -1,0 +1,14 @@
+/* CSS file (e.g., styles.css) */
+.home {
+    display: flex;
+    flex-direction: column; /* Align items in a column */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    height: 100vh; /* Full viewport height */
+    text-align: center; /* Center text horizontally */
+    background-color: #f0f0f0; /* Optional: background color */
+}
+
+.home h1, .home p, .home button {
+    margin: 10px; /* Optional: spacing around elements */
+}

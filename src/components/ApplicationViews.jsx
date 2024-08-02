@@ -52,16 +52,16 @@ export const ApplicationViews = () => {
                 <Route path="/movies" element={<MovieList movies={ownedMovies} fetchMovies={fetchMoviesFromAPI} showAll={true} />} />
                 <Route path="/create" element={<MovieForm fetchMovies={fetchMoviesFromAPI} />} />
                 <Route path="/movies/update/:id" element={<MovieForm fetchMovies={fetchMoviesFromAPI} />} />
-                <Route 
-                    path="/mine" 
+                <Route
+                    path="/mine"
                     element={
                         <>
-                            <h1 className="text-3xl">My Movies</h1>
+                            <h2 className="text-4xl font-semibold text-orange-700 mt-8 mb-4">Movies I've Contributed</h2>
                             <MovieList movies={ownedMovies} fetchMovies={fetchMoviesFromAPI} showAll={false} />
-                            <h2 className="text-2xl mt-6">Liked Movies</h2>
+                            <h2 className="text-4xl font-semibold text-blue-700 mt-8 mb-4">My Watchlist</h2>
                             <MovieList movies={likedMovies} fetchMovies={fetchLikedMovies} isLiked={true} />
                         </>
-                    } 
+                    }
                 />
             </Route>
         </Routes>
